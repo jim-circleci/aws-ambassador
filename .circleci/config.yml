@@ -227,7 +227,7 @@ jobs:
             docker manifest annotate public.ecr.aws/${AWS_ECR_PUBLIC_REGISTRY_ALIAS}/${ECR_REPO}:${CIRCLE_SHA1} public.ecr.aws/${AWS_ECR_PUBLIC_REGISTRY_ALIAS}/${ECR_REPO}:${CIRCLE_SHA1}-amd64 --arch amd64
             docker manifest push public.ecr.aws/${AWS_ECR_PUBLIC_REGISTRY_ALIAS}/${ECR_REPO}:${CIRCLE_SHA1}
       - run:
-          name: "Create and Publish Manifest for latest"
+          name: "Create and Publish Manifest for latest!"
           command: |
             docker manifest create public.ecr.aws/${AWS_ECR_PUBLIC_REGISTRY_ALIAS}/${ECR_REPO}:latest public.ecr.aws/${AWS_ECR_PUBLIC_REGISTRY_ALIAS}/${ECR_REPO}:latest-arm64 public.ecr.aws/${AWS_ECR_PUBLIC_REGISTRY_ALIAS}/${ECR_REPO}:latest-amd64
             docker manifest annotate public.ecr.aws/${AWS_ECR_PUBLIC_REGISTRY_ALIAS}/${ECR_REPO}:latest public.ecr.aws/${AWS_ECR_PUBLIC_REGISTRY_ALIAS}/${ECR_REPO}:latest-arm64 --arch arm64
