@@ -260,6 +260,7 @@ workflows:
       - ggshield/scan:
           name: Scanning for Secrets with GitGuardian
           revision: $CIRCLE_SHA1
+          context: ambassador
       - test-demo:
           name: "Testing Python Code"
       - build-image:
@@ -287,6 +288,7 @@ workflows:
                 os-type: "linux-arm64"
           requires:
             - "Building << matrix.architecture >> Container Image"
+          context: ambassador
       - publish-image:
           name: "Publish << matrix.architecture >> Container Image to ECR"
           matrix:
