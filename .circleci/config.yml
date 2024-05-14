@@ -253,6 +253,25 @@ jobs:
     environment:
       DOCKER_IMAGE: multi-arch-circleci-demo
 
+  deploy-via-runner:
+    machine: true
+    resource_class: jim-demo/ubuntu-ec2
+    steps:
+      - run:
+          name: Stop All Containers
+          command: docker rm -f $(docker ps -a -q) || echo "No Running Containers"
+      - run:
+          name: Remove All Containers
+          command: docker rmi -f $(docker images -q) || echo "No Images to Remove"
+      - run:
+          name: Pull Multi-Arch Container
+          command: docker pull public.ecr.aws/${AWS_ECR_PUBLIC_REGISTRY_ALIAS}/${ECR_REPO}:latest
+      - run:
+          name: Run Multi-Arch Container
+          command: docker run -d -p 80:8080 public.ecr.aws/${AWS_ECR_PUBLIC_REGISTRY_ALIAS}/${ECR_REPO}:latest
+    environment:
+      ECR_REPO: << pipeline.parameters.ecr-repo >>
+
 
 workflows:
   demo:
@@ -327,5 +346,8 @@ workflows:
           family: << pipeline.parameters.ecr-repo >>-arm
           service_name: << pipeline.parameters.ecr-repo >>-arm
           profile_name: default
+          requires:
+            - "Publish Manifest to ECR"
+      - deploy-via-runner:
           requires:
             - "Publish Manifest to ECR"
