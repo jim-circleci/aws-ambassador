@@ -6,7 +6,6 @@ orbs:
   aws-ecr: circleci/aws-ecr@9.0.4
   aws-ecs: circleci/aws-ecs@4.0.0
   snyk: snyk/snyk@2.0.0
-  ggshield: gitguardian/ggshield@1.1.4
 
 parameters:
   role-arn:
@@ -257,10 +256,6 @@ jobs:
 workflows:
   demo:
     jobs:
-      - ggshield/scan:
-          name: Scanning for Secrets with GitGuardian
-          revision: $CIRCLE_SHA1
-          context: ambassador
       - test-demo:
           name: "Testing Python Code"
       - build-image:
